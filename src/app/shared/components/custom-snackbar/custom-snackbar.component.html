@@ -1,0 +1,30 @@
+<div
+  class="flex items-center justify-between gap-4 p-4 text-white rounded-md shadow-lg min-w-[280px] max-w-sm"
+  [ngClass]="{
+    'bg-green-600': data.type === 'success',
+    'bg-red-600': data.type === 'error',
+    'bg-yellow-500': data.type === 'warning'
+  }"
+>
+  <div class="flex items-center gap-2">
+    @switch (data.type) {
+      @case('success'){
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+      }
+      @case('error'){
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      }
+      @case('warning'){
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M4.93 4.93l14.14 14.14" />
+        </svg>
+      }
+    }
+    <span class="text-sm">{{ data.message }}</span>
+  </div>
+  <button class="text-xs underline cursor-pointer" mat-button (click)="close()">Close</button>
+</div>

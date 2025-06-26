@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +12,7 @@ private config: Record<string, string> = {};
   }
 
   get apiUrl(): string {
-    return this.config['apiUrl'] || 'http://localhost:3000';
+
+    return isDevMode() ? this.config['apiUrlDev'] : this.config['apiUrl'] ;
   }
 }

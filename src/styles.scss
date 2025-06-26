@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+@use 'tailwindcss';
 
 html,
 body {
@@ -7,4 +7,35 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.login-card {
+  @apply max-w-md mx-auto mt-20 p-6 bg-white rounded-lg shadow-md;
+}
+
+.login-form {
+  @apply space-y-4;
+}
+
+.login-input {
+  @apply w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500;
+}
+
+.login-button {
+  @apply w-full p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200;
+}
+
+
+.mat-mdc-snack-bar-container {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+.mat-mdc-snackbar-surface {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  color: inherit !important;
 }

@@ -10,22 +10,21 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideServiceWorker } from '@angular/service-worker';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ConfigService } from './services/config-service';
 import { LoaderInterceptor } from './shared/interceptors/loader-interceptor';
+import { AuthInterceptor } from './shared/interceptors/auth-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideHttpClient(),
+    provideHttpClient(
+      withInterceptors([LoaderInterceptor, AuthInterceptor]),
+    ),
     ConfigService,
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    {
-      provide: 'HTTP_INTERCEPTORS',
-      useClass: LoaderInterceptor,
-      multi: true
-    },
+
     provideAppInitializer(async () => {
       const configService = inject(ConfigService);
       await configService.loadConfig();
@@ -36,3 +35,4 @@ export const appConfig: ApplicationConfig = {
     }),
   ],
 };
+

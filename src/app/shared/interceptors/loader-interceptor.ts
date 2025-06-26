@@ -1,16 +1,14 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { inject } from '@angular/core';
+import {  HttpRequest,  HttpEvent, HttpHandlerFn } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { LoaderService } from '../../services/admin/loader-service';
 
-@Injectable()
-export class LoaderInterceptor implements HttpInterceptor {
-  private loaderService: LoaderService = inject(LoaderService);
-  intercept(req: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    this.loaderService.show(); // Show loader on request start
-    return next.handle(req).pipe(
-      finalize(() => this.loaderService.hide()) // Hide loader on request completion
+
+export function LoaderInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
+  const loaderService: LoaderService = inject(LoaderService);
+    loaderService.show(); // Show loader on request start
+    return next(req).pipe(
+      finalize(() => loaderService.hide()) // Hide loader on request completion
     );
   }
-}

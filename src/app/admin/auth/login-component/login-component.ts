@@ -7,7 +7,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../services/admin/auth-service';
 import { take } from 'rxjs';
 import { LoginResponse } from '../../../shared/models/login.model';
-
+import { SnackbarService } from '../../../services/admin/snackbar-service';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router, RouterLink } from '@angular/router';
 @Component({
   selector: 'app-login-component',
   imports: [
@@ -15,16 +17,18 @@ import { LoginResponse } from '../../../shared/models/login.model';
     MatInputModule,
     MatButtonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './login-component.html',
   styleUrl: './login-component.scss',
 })
 export class LoginComponent implements OnInit {
    //loginForm: FormGroup;
-   private authService: AuthService = inject(AuthService);
+  private authService: AuthService = inject(AuthService);
+  private snackbar: SnackbarService = inject(SnackbarService)
   private fb: FormBuilder = inject(FormBuilder);
-
+  private router: Router = inject(Router);
     loginForm: FormGroup = this.fb.group({
       email: ['', Validators.required],
       password: ['', Validators.required]
@@ -43,18 +47,19 @@ export class LoginComponent implements OnInit {
       next: (response : LoginResponse) => {
         if (response.status) {
           console.log('Login successful:', response.message);
+          localStorage.setItem('token', response.data.token.accessToken);
+          this.router.navigate(['../../admin']);
           // Handle successful login, e.g., redirect to dashboard
         } else {
           console.error('Login failed:', response.message);
           // Handle login failure, e.g., show error message
         }
       }
-      , error: (error) => {
+      , error: (error: HttpErrorResponse) => {
         console.error('Login error:', error);
+        this.snackbar.showSnackbar(error.error.message,'error');
         // Handle error, e.g., show error message
       }
     });
-    console.log('Login form submitted:', this.loginForm.value);
-    this.loginForm.reset(); // Reset the form after submission
   }
 }

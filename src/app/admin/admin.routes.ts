@@ -8,7 +8,10 @@ export const adminRoutes: Routes = [
     loadComponent: () => import('./admin-layout-components/admin-layout-components').then((m) => m.AdminLayoutComponents),
     canActivate: [adminGuard],
     children: [
-
+      {
+        path: '',
+        loadComponent: () => import('./dashboard/dashboard.component').then((m) => m.DashboardComponent),
+      }
     ]
   },
   {
