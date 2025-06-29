@@ -1,6 +1,20 @@
-<app-header />
-<app-sidebar />
-<div class="main-content">
-  <router-outlet></router-outlet>
+<div class="flex h-screen w-screen bg-cyan-700">
+    <!-- Sidebar -->
+    <app-sidebar></app-sidebar>
+
+    <!-- Main Content Area -->
+    <div class="flex flex-col flex-1 overflow-hidden">
+      <!-- Header -->
+      <app-header></app-header>
+      <!-- Main Content -->
+      <main class="grow">
+        <p class="text-danger p-4 bg-">Manish</p>
+        <mat-icon class="text-white" aria-hidden="false" aria-label="menu" fontIcon="list"></mat-icon>
+        <router-outlet></router-outlet>
+      </main>
+
+        <!-- Footer -->
+      <app-footer class="flex-shrink-0"></app-footer>
+    </div>
 </div>
-<app-footer />
+

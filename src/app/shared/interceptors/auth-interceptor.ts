@@ -31,7 +31,7 @@ import { Router } from '@angular/router';
       catchError((error) => {
         if (error instanceof HttpErrorResponse) {
           if (error.status === 401) {
-            return handle401Error(injector, authReq, next, authService);
+            return handle401Error(injector, authReq, next, authService,router);
           } else if (error.status === 403) {
             authService.logout().pipe(take(1)).subscribe({
                next: (response) => {
@@ -52,7 +52,11 @@ import { Router } from '@angular/router';
 
   }
 
-  function handle401Error(injector: Injector,req: HttpRequest<unknown>, next: HttpHandlerFn, authService : AuthService): Observable<HttpEvent<unknown>> {
+  function handle401Error(injector: Injector,
+    req: HttpRequest<unknown>,
+    next: HttpHandlerFn,
+    authService : AuthService,
+    router: Router): Observable<HttpEvent<unknown>> {
 
     if (!isRefreshing) {
       isRefreshing = true;
@@ -67,7 +71,17 @@ import { Router } from '@angular/router';
         }),
         catchError((err) => {
           isRefreshing = false;
-          authService.logout();
+          authService.logout().pipe(take(1)).subscribe({
+               next: (response) => {
+                  console.log(response);
+                  sessionStorage.clear();
+                  localStorage.clear();
+                  router.navigate(['/admin/auth/login']);
+               }
+               , error: (error: HttpErrorResponse) => {
+                  console.log(error);
+               }
+            });
           return throwError(() => err);
         })
       );

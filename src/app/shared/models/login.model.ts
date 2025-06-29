@@ -1,17 +1,17 @@
 export interface LoginModel {
   email: string;
   password: string;
-};
+}
 
 export interface LoginResponse {
-  status:  boolean;
+  status: boolean;
   message: string;
-  data:    Data;
+  data: Data;
 }
 
 export interface Data {
   userData: UserData;
-  token:    Token;
+  token: Token;
 }
 
 export interface Token {
@@ -19,35 +19,38 @@ export interface Token {
 }
 
 export interface UserData {
-  _id:       string;
-  name:      string;
-  email:     string;
-  mobile:    string;
-  userType:  UserType;
-  gender:    Country;
-  dob:       Date;
-  country:   Country;
-  isActive:  boolean;
+  _id: string;
+  name: string;
+  email: string;
+  mobile: string;
+  userType: UserType;
+  gender: Country;
+  dob: Date;
+  country: Country;
+  isActive: boolean;
   isDeleted: boolean;
   createdAt: Date;
-  __v:       number;
+  __v: number;
+  salt: string;
+  encryptionKeyHint: string;
 }
 
 export interface Country {
-  _id:   string;
-  cd:    string;
+  _id: string;
+  cd: string;
   value: string;
-  __v:   number;
+  __v: number;
 }
 
 export interface UserType {
-  _id:         string;
-  name:        string;
-  createdBy:   string;
+  _id: string;
+  name: string;
+  createdBy: string;
   createdDate: Date;
-  isActive:    boolean;
-  isDeleted:   boolean;
-  createdAt:   Date;
-  updatedAt:   Date;
-  __v:         number;
+  isActive: boolean;
+  isDeleted: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  __v: number;
+  shortCode: string;
 }
